@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 // mongoose.connect("mongodb://localhost:27017/blogDB", {
 //   useNewUrlParser: true
 // });
-mongoose.connect("mongodb+srv://ritish-admin:test123@cluster0.5gr3k.mongodb.net/blogDB", {
+mongoose.connect("mongodb+srv://ritish-admin:xxxxxxx@cluster0.5gr3k.mongodb.net/blogDB", {
   useNewUrlParser: true
 });
 const homeStartingContent = "A Blog page just to suit your needs. Its to-go for any update regarding any topic to the public. Please click compose to create a new blog. You may compose as many blogs as you want. Any feedback from your side will be appreciated.";
