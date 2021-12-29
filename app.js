@@ -1,13 +1,14 @@
 //jshint esversion:6
 
 const express = require("express");
-const ejsLint = require('ejs-lint');
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const http = require("http");
-const _ = require("lodash");
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/blogDB", {
+
+// mongoose.connect("mongodb://localhost:27017/blogDB", {
+//   useNewUrlParser: true
+// });
+mongoose.connect("mongodb+srv://ritish-admin:test123@cluster0.5gr3k.mongodb.net/blogDB", {
   useNewUrlParser: true
 });
 const homeStartingContent = "A Blog page just to suit your needs. Its to-go for any update regarding any topic to the public. Please click compose to create a new blog. You may compose as many blogs as you want. Any feedback from your side will be appreciated.";
@@ -21,8 +22,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(express.static("public"));
-
-const post = [];
 
 const postSchema = {
   title: String,
@@ -60,34 +59,27 @@ app.get("/compose", function(req, res) {
 
 app.get("/posts/:postID", function(req, res) {
 
-  Post.findOne({_id: req.params.postID}, function(err, post) {
-      if (!err) {
-        console.log("Match Found");
-        res.render("post", {
-          composeTitle: post.title,
-          composePost: post.content
-        });
-      } else {
-        console.log("Match Not Found");
-        console.log(req.params.postID);
-        console.log(post._id);
-      }
+  Post.findOne({
+    _id: req.params.postID
+  }, function(err, post) {
+    if (!err) {
+      res.render("post", {
+        composeTitle: post.title,
+        composePost: post.content
+      });
+    }
   });
-  app.post("/compose", function(req, res) {
+});
+app.post("/compose", function(req, res) {
 
-    const post = new Post({
-      title: req.body.composeTitle,
-      content: req.body.composePost
-    });
-
-    post.save(function(err) {
-      if (!err) {
-        res.redirect("/");
-
-      } else {
-        console.log(err);
-      }
-    });
+  const post = new Post({
+    title: req.body.composeTitle,
+    content: req.body.composePost
+  });
+  post.save(function(err) {
+    if (!err) {
+      res.redirect("/");
+    }
   });
 });
 app.listen(process.env.PORT || 3000, function() {
